@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "NODE_ENV=development bun x expo start -c",
+    "start": "NODE_ENV=development bun x expo start -c --go",
     "start:prod": "NODE_ENV=production bun x expo start -c",
     "android": "NODE_ENV=development bun x expo start --android",
     "ios": "NODE_ENV=development bun x expo start --ios",
@@ -15,7 +15,7 @@
     "build:prod": "NODE_ENV=production bun x eas-cli build --profile production --auto-submit",
     "build:prod:local": "NODE_ENV=production bun x eas-cli build --profile production --local --non-interactive",
     "submit": "npx eas-cli submit",
-    "translate": "yarn extract && node ./scripts/mergeTranslations.ts",
+    "translate": "npm run extract && node ./scripts/mergeTranslations.ts",
     "extract": "formatjs extract './{app,src}/**/*.ts*' --ignore='**/*.d.ts' --out-file ./assets/translations/en.json --format simple"
   },
   "jest": {

@@ -6,7 +6,8 @@
       "@/*": ["./src/*"],
       "@/assets/*": ["./assets/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "jsx": "react-native"
   },
   "include": [
     "**/*.ts",

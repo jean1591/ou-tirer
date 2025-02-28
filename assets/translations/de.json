@@ -1,4 +1,19 @@
 {
+  "settings.data.reset": "Reset All Data",
+  "settings.data.reset.cancel": "Cancel",
+  "settings.data.reset.confirm": "Reset",
+  "settings.data.reset.description": "Are you sure you want to reset all data? This action cannot be undone.",
+  "settings.data.reset.title": "Reset All Data",
+  "settings.data.title": "Data",
+  "settings.language.current": "Select your language",
+  "settings.language.select": "Select Language",
+  "settings.language.title": "Language",
+  "settings.premium.title": "Upgrade to Premium",
+  "settings.theme.darkMode": "Dark Mode",
+  "settings.theme.title": "Appearance",
+  "settings.version": "Version {version}",
+  "tab.home": "Home",
+  "tab.settings": "Settings",
   "header.stats": "Stats",
   "onboarding.getStarted": "Get Started",
   "onboarding.multipleCounters.description": "Create and manage multiple counters at once. Give them different colors and names to stay organized.",
@@ -12,7 +27,5 @@
   "paywall.lifetime": "Lifetime access for just {price}",
   "paywall.restore": "Restore Purchase",
   "paywall.subtitle": "Unlock all features and remove ads",
-  "paywall.title": "Get the Pro version",
-  "tab.home": "Home",
-  "tab.settings": "Settings"
+  "paywall.title": "Get the Pro version"
 }

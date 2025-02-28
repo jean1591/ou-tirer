@@ -21,7 +21,6 @@ Each shooting range entry in the list will show:
 
 - **Name** (`equip_nom`)
 - **Address** (`inst_adresse`, `inst_cp`, `inst_com_nom`)
-- **Coordinates** (`coordonnees.lon`, `coordonnees.lat`)
 
 On selecting an item, a bottom sheet will show:
 
