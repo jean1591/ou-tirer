@@ -1,0 +1,18 @@
+{
+  "header.stats": "Stats",
+  "onboarding.getStarted": "Get Started",
+  "onboarding.multipleCounters.description": "Create and manage multiple counters at once. Give them different colors and names to stay organized.",
+  "onboarding.multipleCounters.title": "Multiple Counters",
+  "onboarding.next": "Next",
+  "onboarding.singleCounter.description": "Keep track of anything with a simple tap. Perfect for counting repetitions, scores, or any other number you need to track.",
+  "onboarding.singleCounter.title": "Simple Counter",
+  "onboarding.stats.description": "Export your counting history to CSV or Excel format for detailed analysis and backup.",
+  "onboarding.stats.title": "Export Your Data",
+  "paywall.continue": "Continue",
+  "paywall.lifetime": "Lifetime access for just {price}",
+  "paywall.restore": "Restore Purchase",
+  "paywall.subtitle": "Unlock all features and remove ads",
+  "paywall.title": "Get the Pro version",
+  "tab.home": "Home",
+  "tab.settings": "Settings"
+}

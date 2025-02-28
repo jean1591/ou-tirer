@@ -1,0 +1,72 @@
+{
+  "expo": {
+    "name": "Ou tirer",
+    "slug": "ou-tirer",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "com.sinoapps.releasefast",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sinoapps.releasefast",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "locales": {
+      "en": "./assets/translations/ios/en.json",
+      "fr": "./assets/translations/ios/fr.json",
+      "de": "./assets/translations/ios/de.json",
+      "es": "./assets/translations/ios/es.json",
+      "it": "./assets/translations/ios/it.json",
+      "pt": "./assets/translations/ios/pt.json"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.sinoapps.releasefast"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "@sentry/react-native/expo",
+        {
+          "organization": "sinoapps",
+          "project": "release-fast"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-8918794774906857~8756735370",
+          "iosAppId": "ca-app-pub-8918794774906857~2709716010",
+          "delayAppMeasurementInit": true
+        }
+      ],
+      "expo-localization",
+      "expo-tracking-transparency",
+      "@react-native-firebase/app",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
