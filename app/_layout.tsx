@@ -96,9 +96,7 @@ export default function RootLayout() {
         <IntlProvider>
           <ToastProvider>
             <BottomSheetModalProvider>
-              <ThemeProvider
-                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-              >
+              <ThemeProvider value={DefaultTheme}>
                 <RootLayoutNav />
               </ThemeProvider>
             </BottomSheetModalProvider>
