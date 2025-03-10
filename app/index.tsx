@@ -144,7 +144,19 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
     equip_long,
     equip_larg,
     equip_haut,
+    inst_acc_handi_type,
+    inst_acc_handi_bool,
+    equip_ouv_public_bool,
+    equip_sanit,
+    equip_douche,
+    equip_eclair,
   } = stand;
+
+  const isHandicapAccessible = inst_acc_handi_bool === "true";
+  const isPublicAccess = equip_ouv_public_bool === "true";
+  const hasSanitaryFacilities = equip_sanit === "true";
+  const hasShowers = equip_douche === "true";
+  const hasLighting = equip_eclair === "true";
 
   return (
     <View className="px-4">
@@ -161,12 +173,9 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       <Text className="mt-1 text-slate-500 text-lg">{inst_nom}</Text>
 
       <View className="mt-8 rounded-xl bg-gray-500/10 w-full flex-row gap-4 flex justify-start items-start p-4">
-        <Ionicons
-          name="location-outline"
-          size={24}
-          color="#15803d"
-          className="bg-green-500/10 p-2 rounded-full"
-        />
+        <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
+          <Ionicons name="location-outline" size={24} color="#15803d" />
+        </View>
 
         <View className="flex-1">
           <Text className="text-lg font-bold">Adresse</Text>
@@ -230,6 +239,57 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
           </View>
         </View>
       )}
+
+      <View className="mt-8">
+        <Text className="text-lg font-bold">Accès et équipements</Text>
+
+        <View className="mt-4 flex flex-row items-center justify-between">
+          <View className="flex items-center justify-start gap-4 flex-1 flex-row">
+            <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
+              <FontAwesome name="wheelchair" size={24} color="#15803d" />
+            </View>
+            <View>
+              <Text className="font-bold text-lg">Accès handicapé</Text>
+              {inst_acc_handi_type &&
+                JSON.parse(inst_acc_handi_type).length > 0 && (
+                  <Text className="text-slate-500 truncate">
+                    {JSON.parse(inst_acc_handi_type).join(", ")}
+                  </Text>
+                )}
+            </View>
+          </View>
+
+          {isHandicapAccessible ? (
+            <Text className="bg-green-500/10 font-medium text-green-700 px-4 rounded-full">
+              Oui
+            </Text>
+          ) : (
+            <Text className="bg-amber-500/10 font-medium text-amber-700 px-4 rounded-full">
+              Non
+            </Text>
+          )}
+        </View>
+
+        <View className="mt-4 flex flex-row items-center justify-between">
+          <View className="flex items-center justify-start gap-4 flex-1 flex-row">
+            <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
+              <FontAwesome name="user-o" size={24} color="#15803d" />
+            </View>
+
+            <Text className="font-bold text-lg">Ouvert au public</Text>
+          </View>
+
+          {isPublicAccess ? (
+            <Text className="bg-green-500/10 font-medium text-green-700 px-4 rounded-full">
+              Oui
+            </Text>
+          ) : (
+            <Text className="bg-amber-500/10 font-medium text-amber-700 px-4 rounded-full">
+              Privé
+            </Text>
+          )}
+        </View>
+      </View>
     </View>
   );
 };

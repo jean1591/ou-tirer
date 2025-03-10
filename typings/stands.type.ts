@@ -24,7 +24,7 @@ export interface Stand {
   equip_type_famille: string;
   equip_type_name: string;
   inst_acc_handi_bool: string;
-  inst_acc_handi_type?: string[];
+  inst_acc_handi_type?: string;
   inst_adresse: string;
   inst_com_nom: string;
   inst_cp: string;
