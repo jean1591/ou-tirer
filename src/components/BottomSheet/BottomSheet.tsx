@@ -47,7 +47,7 @@ export const BottomSheet = forwardRef<
         width: 40,
       }}
       backgroundStyle={{
-        backgroundColor: colorScheme === "dark" ? "#000" : "#fff",
+        backgroundColor: "#fff",
       }}
     >
       <BottomSheetScrollView style={{ flex: 1 }}>
