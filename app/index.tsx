@@ -1,15 +1,16 @@
 import {
+  AntDesign,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import {
   FlatList,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import {
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
 import { Stand, StandsResponse } from "typings/stands.type";
 
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
@@ -144,7 +145,6 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
     equip_long,
     equip_larg,
     equip_haut,
-    inst_acc_handi_type,
     inst_acc_handi_bool,
     equip_ouv_public_bool,
     equip_sanit,
@@ -170,8 +170,9 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       </View>
 
       <Text className="mt-4 font-bold text-3xl">{equip_nom}</Text>
-      <Text className="mt-1 text-slate-500 text-lg">{inst_nom}</Text>
+      <Text className="capitalize mt-1 text-slate-500 text-lg">{inst_nom}</Text>
 
+      {/* ADDRESS */}
       <View className="mt-8 rounded-xl bg-gray-500/10 w-full flex-row gap-4 flex justify-start items-start p-4">
         <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
           <Ionicons name="location-outline" size={24} color="#15803d" />
@@ -188,6 +189,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         </View>
       </View>
 
+      {/* SPECS */}
       <View className="mt-8">
         <Text className="text-lg font-bold">Caractéristiques</Text>
         <View className="mt-4 flex items-center justify-between gap-2 flex-row">
@@ -214,6 +216,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         </View>
       </View>
 
+      {/* DIMENSIONS */}
       {(equip_long || equip_larg || equip_haut) && (
         <View className="mt-8">
           <Text className="text-lg font-bold">Dimensions</Text>
@@ -240,6 +243,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         </View>
       )}
 
+      {/* ACCESS */}
       <View className="mt-8">
         <Text className="text-lg font-bold">Accès et équipements</Text>
 
@@ -248,15 +252,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
             <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
               <FontAwesome name="wheelchair" size={24} color="#15803d" />
             </View>
-            <View>
-              <Text className="font-bold text-lg">Accès handicapé</Text>
-              {inst_acc_handi_type &&
-                JSON.parse(inst_acc_handi_type).length > 0 && (
-                  <Text className="text-slate-500 truncate">
-                    {JSON.parse(inst_acc_handi_type).join(", ")}
-                  </Text>
-                )}
-            </View>
+            <Text className="font-bold text-lg">Accès handicapé</Text>
           </View>
 
           {isHandicapAccessible ? (
@@ -288,6 +284,53 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
               Privé
             </Text>
           )}
+        </View>
+
+        <View className="mt-8 flex items-center justify-center gap-2 flex-row">
+          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+            <View
+              className={`flex items-center justify-center h-8 w-8 rounded-full ${
+                hasSanitaryFacilities ? "bg-green-500/10" : "bg-gray-500/10"
+              }`}
+            >
+              <FontAwesome
+                name={hasSanitaryFacilities ? "check" : "ban"}
+                size={16}
+                color={hasSanitaryFacilities ? "#15803d" : "#374151"}
+              />
+            </View>
+            <Text className="text-slate-500">Sanitaires</Text>
+          </View>
+
+          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+            <View
+              className={`flex items-center justify-center h-8 w-8 rounded-full ${
+                hasShowers ? "bg-green-500/10" : "bg-gray-500/10"
+              }`}
+            >
+              <FontAwesome
+                name={hasShowers ? "check" : "ban"}
+                size={16}
+                color={hasShowers ? "#15803d" : "#374151"}
+              />
+            </View>
+            <Text className="text-slate-500">Douches</Text>
+          </View>
+
+          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+            <View
+              className={`flex items-center justify-center h-8 w-8 rounded-full ${
+                hasLighting ? "bg-green-500/10" : "bg-gray-500/10"
+              }`}
+            >
+              <FontAwesome
+                name={hasLighting ? "check" : "ban"}
+                size={16}
+                color={hasLighting ? "#15803d" : "#374151"}
+              />
+            </View>
+            <Text className="text-slate-500">Éclairage</Text>
+          </View>
         </View>
       </View>
     </View>
