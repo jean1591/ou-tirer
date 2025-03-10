@@ -1,16 +1,15 @@
 import {
-  AntDesign,
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import {
   FlatList,
   SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import {
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import { Stand, StandsResponse } from "typings/stands.type";
 
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
@@ -164,7 +163,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         <Text className="bg-green-500/10 font-medium text-green-700 px-4 rounded-full">
           {equip_type_name}
         </Text>
-        <Text className="bg-gray-500/10 font-medium text-gray-700 px-4 rounded-full">
+        <Text className="bg-gray-400/10 font-medium text-gray-700 px-4 rounded-full">
           {equip_nature}
         </Text>
       </View>
@@ -173,7 +172,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       <Text className="capitalize mt-1 text-slate-500 text-lg">{inst_nom}</Text>
 
       {/* ADDRESS */}
-      <View className="mt-8 rounded-xl bg-gray-500/10 w-full flex-row gap-4 flex justify-start items-start p-4">
+      <View className="mt-8 rounded-xl bg-gray-400/10 w-full flex-row gap-4 flex justify-start items-start p-4">
         <View className="flex items-center justify-center h-12 w-12 bg-green-500/10 rounded-full">
           <Ionicons name="location-outline" size={24} color="#15803d" />
         </View>
@@ -193,21 +192,21 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       <View className="mt-8">
         <Text className="text-lg font-bold">Caractéristiques</Text>
         <View className="mt-4 flex items-center justify-between gap-2 flex-row">
-          <View className="flex-1 rounded-xl bg-gray-500/10 py-2 px-4">
+          <View className="flex-1 rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Type de sol</Text>
             <Text className="font-bold text-lg">{equip_sol}</Text>
           </View>
-          <View className="flex-1 rounded-xl bg-gray-500/10 py-2 px-4">
+          <View className="flex-1 rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Pistes</Text>
             <Text className="font-bold text-lg">{equip_piste_nb}</Text>
           </View>
         </View>
         <View className="mt-2 flex items-center justify-between gap-2 flex-row">
-          <View className="flex-1 rounded-xl bg-gray-500/10 py-2 px-4">
+          <View className="flex-1 h-full rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Surface</Text>
             <Text className="font-bold text-lg">{equip_surf} m²</Text>
           </View>
-          <View className="flex-1 rounded-xl bg-gray-500/10 py-2 px-4">
+          <View className="flex-1 h-full rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Sport</Text>
             <Text className="font-bold text-lg">
               {equip_aps_nom.join(", ")}
@@ -220,7 +219,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       {(equip_long || equip_larg || equip_haut) && (
         <View className="mt-8">
           <Text className="text-lg font-bold">Dimensions</Text>
-          <View className="mt-4 rounded-xl bg-gray-500/10 py-2 px-4 flex justify-between items-center flex-row">
+          <View className="mt-4 rounded-xl bg-gray-400/10 py-2 px-4 flex justify-between items-center flex-row">
             {equip_long && (
               <View className="flex-1">
                 <Text className="text-slate-500">Longueur</Text>
@@ -287,14 +286,14 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         </View>
 
         <View className="mt-8 flex items-center justify-center gap-2 flex-row">
-          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+          <View className="p-2 flex-1 bg-gray-400/10 rounded-xl flex flex-col justify-center items-center gap-2">
             <View
               className={`flex items-center justify-center h-8 w-8 rounded-full ${
-                hasSanitaryFacilities ? "bg-green-500/10" : "bg-gray-500/10"
+                hasSanitaryFacilities ? "bg-green-500/10" : "bg-gray-400/10"
               }`}
             >
-              <FontAwesome
-                name={hasSanitaryFacilities ? "check" : "ban"}
+              <Ionicons
+                name={hasSanitaryFacilities ? "checkmark" : "ban"}
                 size={16}
                 color={hasSanitaryFacilities ? "#15803d" : "#374151"}
               />
@@ -302,14 +301,14 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
             <Text className="text-slate-500">Sanitaires</Text>
           </View>
 
-          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+          <View className="p-2 flex-1 bg-gray-400/10 rounded-xl flex flex-col justify-center items-center gap-2">
             <View
               className={`flex items-center justify-center h-8 w-8 rounded-full ${
-                hasShowers ? "bg-green-500/10" : "bg-gray-500/10"
+                hasShowers ? "bg-green-500/10" : "bg-gray-400/10"
               }`}
             >
-              <FontAwesome
-                name={hasShowers ? "check" : "ban"}
+              <Ionicons
+                name={hasShowers ? "checkmark" : "ban"}
                 size={16}
                 color={hasShowers ? "#15803d" : "#374151"}
               />
@@ -317,14 +316,14 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
             <Text className="text-slate-500">Douches</Text>
           </View>
 
-          <View className="p-2 flex-1 bg-gray-500/10 rounded-xl flex flex-col justify-center items-center gap-2">
+          <View className="p-2 flex-1 bg-gray-400/10 rounded-xl flex flex-col justify-center items-center gap-2">
             <View
               className={`flex items-center justify-center h-8 w-8 rounded-full ${
-                hasLighting ? "bg-green-500/10" : "bg-gray-500/10"
+                hasLighting ? "bg-green-500/10" : "bg-gray-400/10"
               }`}
             >
-              <FontAwesome
-                name={hasLighting ? "check" : "ban"}
+              <Ionicons
+                name={hasLighting ? "checkmark" : "ban"}
                 size={16}
                 color={hasLighting ? "#15803d" : "#374151"}
               />
