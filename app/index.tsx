@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   Text,
@@ -11,14 +12,17 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Stand, StandsResponse } from "typings/stands.type";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { TextInput } from "react-native-gesture-handler";
-import standsMock from "../assets/mock/stands.mock.json";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 
 const getSportIcon = (range: Stand) => {
+  if (range.equip_aps_nom === undefined || range.equip_aps_nom === null) {
+    return "🔫";
+  }
+
   if (
     range.equip_aps_nom.some((sport) =>
       sport.toLowerCase().includes("carabine")
@@ -34,15 +38,74 @@ const getSportIcon = (range: Stand) => {
   }
 };
 
+const EmptyState = () => (
+  <View className="flex-1 items-center justify-center p-8">
+    <Text className="text-slate-500 text-lg text-center">No results</Text>
+  </View>
+);
+
 export default function Index() {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
-  const standsResponse = standsMock as unknown as StandsResponse;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [stands, setStands] = useState<Stand[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { bottomSheetModalRef, showSheet } = useBottomSheet();
+
+  const fetchStands = useCallback(async (departmentCode: string) => {
+    if (!departmentCode || departmentCode.length === 0) {
+      setStands([]);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const encodedFilter = encodeURIComponent(
+        'equip_type_famille:"Pas de tir"'
+      );
+      const encodedWhere = encodeURIComponent(`dep_code="${departmentCode}"`);
+      const url = `https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/data-es/records?refine=${encodedFilter}&where=${encodedWhere}`;
+
+      const response = await fetch(url, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("API did not return JSON");
+      }
+
+      const data = (await response.json()) as StandsResponse;
+      setStands(data.results || []);
+    } catch (error) {
+      console.error("Error fetching stands:", error);
+      setStands([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const handleSearch = useCallback(
+    (text: string) => {
+      setSearchQuery(text);
+      if (text.length >= 1) {
+        fetchStands(text);
+      } else {
+        setStands([]);
+      }
+    },
+    [fetchStands]
+  );
 
   const handleOnPress = useCallback(
     (index: number) => {
       setSelectedIndex(index);
-      // Ensure we set the index before showing the sheet
       requestAnimationFrame(() => {
         showSheet();
       });
@@ -53,7 +116,7 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1">
       <FlatList
-        data={standsResponse.results}
+        data={stands}
         renderItem={({ item, index }) => (
           <StandListItem
             stand={item}
@@ -64,20 +127,36 @@ export default function Index() {
         bounces={false}
         showsVerticalScrollIndicator={false}
         contentContainerClassName="flex gap-4 p-8 pb-16"
-        ListHeaderComponent={<Header />}
+        ListHeaderComponent={
+          <Header searchQuery={searchQuery} onSearch={handleSearch} />
+        }
+        ListEmptyComponent={
+          isLoading ? (
+            <View className="flex-1 items-center justify-center p-8">
+              <ActivityIndicator size="large" color="#1e293b" />
+            </View>
+          ) : searchQuery.length >= 2 ? (
+            <EmptyState />
+          ) : null
+        }
       />
 
       <BottomSheet ref={bottomSheetModalRef} className="p-4">
-        {selectedIndex !== undefined &&
-          standsResponse.results[selectedIndex] && (
-            <StandDetails stand={standsResponse.results[selectedIndex]} />
-          )}
+        {selectedIndex !== undefined && stands[selectedIndex] && (
+          <StandDetails stand={stands[selectedIndex]} />
+        )}
       </BottomSheet>
     </SafeAreaView>
   );
 }
 
-const Header = () => {
+const Header = ({
+  searchQuery,
+  onSearch,
+}: {
+  searchQuery: string;
+  onSearch: (text: string) => void;
+}) => {
   return (
     <View className="mb-8">
       <View className="flex items-center flex-row justify-start gap-2">
@@ -88,8 +167,12 @@ const Header = () => {
       <View className="mt-12 flex flex-row gap-2 justify-start items-center bg-slate-200 rounded-full py-2 pl-4">
         <MaterialCommunityIcons name="magnify" size={24} color="#64748b" />
         <TextInput
-          className="text-sm"
+          className="text-sm flex-1"
           placeholder="Entrez un numéro de département"
+          value={searchQuery}
+          onChangeText={onSearch}
+          keyboardType="number-pad"
+          maxLength={3}
         />
       </View>
     </View>
