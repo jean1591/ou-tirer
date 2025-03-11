@@ -12,11 +12,12 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Stand, StandsResponse } from "typings/stands.type";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { TextInput } from "react-native-gesture-handler";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const getSportIcon = (range: Stand) => {
   if (range.equip_aps_nom === undefined || range.equip_aps_nom === null) {
@@ -50,6 +51,7 @@ export default function Index() {
   const [stands, setStands] = useState<Stand[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { bottomSheetModalRef, showSheet } = useBottomSheet();
+  const debouncedSearchQuery = useDebounce(searchQuery);
 
   const fetchStands = useCallback(async (departmentCode: string) => {
     if (!departmentCode || departmentCode.length === 0) {
@@ -91,17 +93,17 @@ export default function Index() {
     }
   }, []);
 
-  const handleSearch = useCallback(
-    (text: string) => {
-      setSearchQuery(text);
-      if (text.length >= 1) {
-        fetchStands(text);
-      } else {
-        setStands([]);
-      }
-    },
-    [fetchStands]
-  );
+  const handleSearch = useCallback((text: string) => {
+    setSearchQuery(text);
+  }, []);
+
+  useEffect(() => {
+    if (debouncedSearchQuery.length >= 1) {
+      fetchStands(debouncedSearchQuery);
+    } else {
+      setStands([]);
+    }
+  }, [debouncedSearchQuery, fetchStands]);
 
   const handleOnPress = useCallback(
     (index: number) => {
