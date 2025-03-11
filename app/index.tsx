@@ -61,7 +61,7 @@ export default function Index() {
         ListHeaderComponent={<Header />}
       />
 
-      {selectedIndex && standsResponse.results[selectedIndex] && (
+      {selectedIndex !== undefined && standsResponse.results[selectedIndex] && (
         <BottomSheet ref={bottomSheetModalRef} className="p-4">
           <StandDetails stand={standsResponse.results[selectedIndex]} />
         </BottomSheet>
@@ -160,16 +160,26 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
   return (
     <View className="px-4">
       <View className="flex flex-row gap-2 justify-start items-center">
-        <Text className="bg-green-500/10 font-medium text-green-700 px-4 rounded-full">
-          {equip_type_name}
-        </Text>
-        <Text className="bg-gray-400/10 font-medium text-gray-700 px-4 rounded-full">
-          {equip_nature}
-        </Text>
+        {equip_type_name !== undefined && equip_type_name !== null && (
+          <Text className="bg-green-500/10 font-medium text-green-700 px-4 rounded-full">
+            {equip_type_name}
+          </Text>
+        )}
+        {equip_nature !== undefined && equip_nature !== null && (
+          <Text className="bg-gray-400/10 font-medium text-gray-700 px-4 rounded-full">
+            {equip_nature}
+          </Text>
+        )}
       </View>
 
-      <Text className="mt-4 font-bold text-3xl">{equip_nom}</Text>
-      <Text className="capitalize mt-1 text-slate-500 text-lg">{inst_nom}</Text>
+      {equip_nom !== undefined && equip_nom !== null && (
+        <Text className="mt-4 font-bold text-3xl">{equip_nom}</Text>
+      )}
+      {inst_nom !== undefined && inst_nom !== null && (
+        <Text className="capitalize mt-1 text-slate-500 text-lg">
+          {inst_nom}
+        </Text>
+      )}
 
       {/* ADDRESS */}
       <View className="mt-8 rounded-xl bg-gray-400/10 w-full flex-row gap-4 flex justify-start items-start p-4">
@@ -180,10 +190,11 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         <View className="flex-1">
           <Text className="text-lg font-bold">Adresse</Text>
           <Text className="capitalize text-slate-500 text-lg">
-            {inst_adresse}, {inst_cp} {inst_com_nom}
+            {[inst_adresse, inst_cp, inst_com_nom].filter(Boolean).join(", ") ||
+              "Non spécifiée"}
           </Text>
           <Text className="capitalize text-slate-500">
-            {dep_nom}, {reg_nom}
+            {[dep_nom, reg_nom].filter(Boolean).join(", ") || "Non spécifiée"}
           </Text>
         </View>
       </View>
@@ -194,22 +205,30 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         <View className="mt-4 flex items-center justify-between gap-2 flex-row">
           <View className="flex-1 rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Type de sol</Text>
-            <Text className="font-bold text-lg">{equip_sol}</Text>
+            <Text className="font-bold text-lg">
+              {equip_sol || "Non spécifié"}
+            </Text>
           </View>
           <View className="flex-1 rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Pistes</Text>
-            <Text className="font-bold text-lg">{equip_piste_nb}</Text>
+            <Text className="font-bold text-lg">
+              {equip_piste_nb || "Non spécifié"}
+            </Text>
           </View>
         </View>
         <View className="mt-2 flex items-center justify-between gap-2 flex-row">
           <View className="flex-1 h-full rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Surface</Text>
-            <Text className="font-bold text-lg">{equip_surf} m²</Text>
+            <Text className="font-bold text-lg">
+              {equip_surf ? `${equip_surf} m²` : "Non spécifiée"}
+            </Text>
           </View>
           <View className="flex-1 h-full rounded-xl bg-gray-400/10 py-2 px-4">
             <Text className="text-slate-500">Sport</Text>
             <Text className="font-bold text-lg">
-              {equip_aps_nom.join(", ")}
+              {equip_aps_nom?.length > 0
+                ? equip_aps_nom.join(", ")
+                : "Non spécifié"}
             </Text>
           </View>
         </View>
@@ -220,19 +239,19 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
         <View className="mt-8">
           <Text className="text-lg font-bold">Dimensions</Text>
           <View className="mt-4 rounded-xl bg-gray-400/10 py-2 px-4 flex justify-between items-center flex-row">
-            {equip_long && (
+            {equip_long !== undefined && equip_long !== null && (
               <View className="flex-1">
                 <Text className="text-slate-500">Longueur</Text>
                 <Text className="font-bold text-lg">{equip_long} m</Text>
               </View>
             )}
-            {equip_larg && (
+            {equip_larg !== undefined && equip_larg !== null && (
               <View className="flex-1">
                 <Text className="text-slate-500">Largeur</Text>
                 <Text className="font-bold text-lg">{equip_larg} m</Text>
               </View>
             )}
-            {equip_haut && (
+            {equip_haut !== undefined && equip_haut !== null && (
               <View className="flex-1">
                 <Text className="text-slate-500">Hauteur</Text>
                 <Text className="font-bold text-lg">{equip_haut} m</Text>
