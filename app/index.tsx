@@ -11,12 +11,12 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Stand, StandsResponse } from "typings/stands.type";
+import { useCallback, useEffect, useState } from "react";
 
 import { BottomSheet } from "@/components/BottomSheet/BottomSheet";
 import { TextInput } from "react-native-gesture-handler";
 import standsMock from "../assets/mock/stands.mock.json";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { useState } from "react";
 
 const getSportIcon = (range: Stand) => {
   if (
@@ -39,10 +39,16 @@ export default function Index() {
   const standsResponse = standsMock as unknown as StandsResponse;
   const { bottomSheetModalRef, showSheet } = useBottomSheet();
 
-  const handleOnPress = (index: number) => {
-    setSelectedIndex(index);
-    showSheet();
-  };
+  const handleOnPress = useCallback(
+    (index: number) => {
+      setSelectedIndex(index);
+      // Ensure we set the index before showing the sheet
+      requestAnimationFrame(() => {
+        showSheet();
+      });
+    },
+    [showSheet]
+  );
 
   return (
     <SafeAreaView className="p-8">
@@ -61,11 +67,12 @@ export default function Index() {
         ListHeaderComponent={<Header />}
       />
 
-      {selectedIndex !== undefined && standsResponse.results[selectedIndex] && (
-        <BottomSheet ref={bottomSheetModalRef} className="p-4">
-          <StandDetails stand={standsResponse.results[selectedIndex]} />
-        </BottomSheet>
-      )}
+      <BottomSheet ref={bottomSheetModalRef} className="p-4">
+        {selectedIndex !== undefined &&
+          standsResponse.results[selectedIndex] && (
+            <StandDetails stand={standsResponse.results[selectedIndex]} />
+          )}
+      </BottomSheet>
     </SafeAreaView>
   );
 }

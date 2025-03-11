@@ -1,22 +1,26 @@
 import type { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useBackHandler } from "@react-native-community/hooks";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Keyboard, type TextInput } from "react-native";
 
 export const useBottomSheet = () => {
   const [isDisplayed, setIsDisplayed] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const isInitializedRef = useRef(false);
 
-  const showSheet = () => {
+  const showSheet = useCallback(() => {
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
+    }
     setIsDisplayed(true);
     bottomSheetModalRef.current?.present();
-  };
+  }, []);
 
-  const hideSheet = () => {
+  const hideSheet = useCallback(() => {
     setIsDisplayed(false);
     Keyboard.dismiss();
     bottomSheetModalRef.current?.dismiss();
-  };
+  }, []);
 
   useBackHandler(() => {
     if (isDisplayed) {
@@ -34,12 +38,12 @@ export const useBottomSheetWithAutoFocus = () => {
     useBottomSheet();
   const inputRef = useRef<TextInput>(null);
 
-  const showSheetWithAutofocus = () => {
+  const showSheetWithAutofocus = useCallback(() => {
     showSheet();
     setTimeout(() => {
       inputRef.current?.focus();
     }, 500);
-  };
+  }, [showSheet]);
 
   return {
     bottomSheetModalRef,
