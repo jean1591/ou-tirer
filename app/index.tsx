@@ -51,7 +51,7 @@ export default function Index() {
   );
 
   return (
-    <SafeAreaView className="p-8">
+    <SafeAreaView className="flex-1">
       <FlatList
         data={standsResponse.results}
         renderItem={({ item, index }) => (
@@ -63,7 +63,7 @@ export default function Index() {
         keyExtractor={(item) => item.equip_numero}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        contentContainerClassName="flex gap-4 mt-8"
+        contentContainerClassName="flex gap-4 p-8 pb-16"
         ListHeaderComponent={<Header />}
       />
 
