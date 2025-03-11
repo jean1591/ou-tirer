@@ -65,7 +65,7 @@ export default function Index() {
         'equip_type_famille:"Pas de tir"'
       );
       const encodedWhere = encodeURIComponent(`dep_code="${departmentCode}"`);
-      const url = `https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/data-es/records?refine=${encodedFilter}&where=${encodedWhere}`;
+      const url = `https://equipements.sports.gouv.fr/api/explore/v2.1/catalog/datasets/data-es/records?refine=${encodedFilter}&where=${encodedWhere}&limit=100`;
 
       const response = await fetch(url, {
         headers: {
@@ -130,14 +130,18 @@ export default function Index() {
         showsVerticalScrollIndicator={false}
         contentContainerClassName="flex gap-4 p-8 pb-16"
         ListHeaderComponent={
-          <Header searchQuery={searchQuery} onSearch={handleSearch} />
+          <Header
+            searchQuery={searchQuery}
+            onSearch={handleSearch}
+            standsLength={stands.length || 0}
+          />
         }
         ListEmptyComponent={
           isLoading ? (
             <View className="flex-1 items-center justify-center p-8">
               <ActivityIndicator size="large" color="#1e293b" />
             </View>
-          ) : searchQuery.length >= 2 ? (
+          ) : searchQuery.length >= 1 ? (
             <EmptyState />
           ) : null
         }
@@ -155,9 +159,11 @@ export default function Index() {
 const Header = ({
   searchQuery,
   onSearch,
+  standsLength,
 }: {
   searchQuery: string;
   onSearch: (text: string) => void;
+  standsLength: number;
 }) => {
   return (
     <View className="mb-8">
@@ -177,6 +183,12 @@ const Header = ({
           maxLength={3}
         />
       </View>
+
+      {standsLength > 0 && (
+        <Text className="mt-8 font-bold text-slate-500 text-lg">
+          {standsLength} résultats trouvés
+        </Text>
+      )}
     </View>
   );
 };
@@ -265,7 +277,7 @@ const StandDetails = ({ stand }: { stand: Stand }) => {
       </View>
 
       {equip_nom !== undefined && equip_nom !== null && (
-        <Text className="mt-4 font-bold text-3xl">{equip_nom}</Text>
+        <Text className="capitalize mt-4 font-bold text-3xl">{equip_nom}</Text>
       )}
       {inst_nom !== undefined && inst_nom !== null && (
         <Text className="capitalize mt-1 text-slate-500 text-lg">
